@@ -14,22 +14,13 @@ defmodule Geom do
   end
 
   @spec area(:rectangle, number(), number()) :: number()
-  defp area(:rectangle, length, width) when length > 0 and width > 0 do
-    length * width
-  end
-
-  @spec area(:triangle, number(), number()) :: number()
-  defp area(:triangle, base, height) when base > 0 and height > 0 do
-    base * height / 2.0
-  end
-
-  @spec area(:ellipse, number(), number()) :: number()
-  defp area(:ellipse, major_radius, minor_radius) when major_radius > 0 and minor_radius > 0 do
-    :math.pi() * major_radius * minor_radius
-  end
-
-  defp area(_, _, _) do
-    0
+  defp area(shape, a, b) when a > 0 and b > 0 do
+    case shape do
+      :rectangle -> a * b
+      :triangle -> a * b / 2.0
+      :ellipse -> :math.pi() * a * b
+      _ -> 0
+    end
   end
 
 end

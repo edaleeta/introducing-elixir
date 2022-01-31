@@ -28,5 +28,8 @@ defmodule Geom do
     :math.pi() * major_radius * minor_radius
   end
 
+  defp area(_, _, _) do
+    0
+  end
 
 end

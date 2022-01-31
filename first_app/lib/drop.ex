@@ -4,6 +4,10 @@ defmodule Drop do
   """
   import :math, only: [sqrt: 1]
 
+  def fall_velocity({planemo, distance}) do
+    fall_velocity(planemo, distance)
+  end
+
   def fall_velocity(planemo, distance) when distance >= 0 do
     gravity = case planemo do
       :earth -> 9.8

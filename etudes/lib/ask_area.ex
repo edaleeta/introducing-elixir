@@ -24,6 +24,18 @@ defmodule AskArea do
     IO.puts("Unknown shape #{a}")
   end
 
+  def calculate(_shape, a, b) when a == :error and b == :error do
+    IO.puts("Input for dimensions a and b could not be parsed to a number.")
+  end
+
+  def calculate(_shape, a, _b) when a == :error do
+    IO.puts("Input for dimension a could not be parsed to a number.")
+  end
+
+  def calculate(_shape, _a, b) when b == :error do
+    IO.puts("Input for dimension b could not be parsed to a number.")
+  end
+
   def calculate(_shape, a, b) when not is_number(a) or not is_number(b) do
     IO.puts("Non-number dimensions received. a: #{a}, b: #{b}")
   end
@@ -36,13 +48,19 @@ defmodule AskArea do
     Geom.area({shape, a, b})
   end
 
-  @spec get_number(String.t()) :: integer()
+  @spec get_number(String.t()) :: number() | :error
   def get_number(message) do
-    IO.gets("Enter #{message} > ")
+    input = IO.gets("Enter #{message} > ")
     |> String.trim()
-    |> String.to_integer()
+
+    cond do
+      Regex.match?(~r/^-?\d+$/, input) -> String.to_integer(input)
+      Regex.match?(~r/^-?\d+\.\d+$/, input) -> String.to_float(input)
+      Regex.match?(~r/^-?\d+\.\d+e\d+$/, input) -> String.to_float(input)
+      true -> :error
+    end
   end
-  
+
   @spec get_dimensions(String.t(), String.t()) :: {number(), number()}
   def get_dimensions(prompt_a, prompt_b) do
     {get_number(prompt_a), get_number(prompt_b)}

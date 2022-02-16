@@ -22,13 +22,14 @@ defmodule Drop do
       IO.puts("Reasonable...")
     end
 
-    cond do
-      velocity == 0 -> :stable
-      velocity < 5 -> :slow
-      velocity >= 5 and velocity < 10 -> :moving
-      velocity >= 10 and velocity < 20 -> :fast
-      velocity >= 20 -> :speedy
-    end
+#    cond do
+#      velocity == 0 -> :stable
+#      velocity < 5 -> :slow
+#      velocity >= 5 and velocity < 10 -> :moving
+#      velocity >= 10 and velocity < 20 -> :fast
+#      velocity >= 20 -> :speedy
+#    end
+    velocity
   end
 
 end

@@ -48,4 +48,44 @@ defmodule Geography do
     [%{last_country | cities: updated_cities} | remaining_countries]
   end
 
+  @doc """
+  Calculates the total population of a Country where the primary language matches the given language.
+  The total population of a Country is the sum of cities.
+  """
+
+  @spec total_population([%Country{}], String.t) :: integer
+
+  def total_population(geo_list, language) do
+    total_population(geo_list, language, 0)
+  end
+
+  @spec total_population([%Country{}], String.t, integer) :: integer
+
+  defp total_population([], _, population) do
+    population
+  end
+
+  defp total_population([current_country | rest_geo_list], language, population) do
+    current_country_population = country_population(current_country, language, 0)
+    total_population(rest_geo_list, language, current_country_population + population)
+  end
+
+  defp country_population(country, language, population) when country.language == language do
+    total_city_population(country.cities, population)
+  end
+
+  defp country_population(_, _, _) do
+    0
+  end
+
+  @spec total_city_population([%City{}], integer) :: integer
+
+  defp total_city_population([], population) do
+    population
+  end
+
+  defp total_city_population([current_city | rest_cities], population) do
+    total_city_population(rest_cities, current_city.population + population)
+  end
+
 end

@@ -1,4 +1,3 @@
 defmodule Country do
-  @moduledoc false
-  
+  defstruct name: "", language: "", cities: []
 end

@@ -65,4 +65,28 @@ defmodule Stats do
     [minimum(numbers), maximum(numbers)]
   end
 
+  @doc """
+  Calculate the mean of a list of numbers
+  """
+
+  @spec mean([number]) :: number
+
+  def mean(numbers) do
+    List.foldl(numbers, 0, fn(x, acc) -> x + acc end) / length(numbers)
+  end
+
+  @doc """
+  Calculate the standard deviation of a list of numbers
+  """
+
+  @spec stdv([number]) :: number
+
+  def stdv(numbers) do
+    n = length(numbers)
+    {sum, sum_of_squares} = List.foldl(numbers, {0, 0},
+      fn(x, {acc_sum, acc_sum_of_squares}) -> {x + acc_sum, x * x + acc_sum_of_squares} end)
+
+    :math.sqrt(((n * sum_of_squares) - (sum * sum)) / (n * (n - 1)))
+  end
+
 end

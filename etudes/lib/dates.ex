@@ -28,7 +28,7 @@ defmodule Dates do
 
   def julian(date) do
     [year, month, day] = date_parts(date)
-    month_days = month_total_days(month - 1, get_days_in_months(year), 0)
+    month_days = month_total_days(month - 1, get_days_in_months(year))
     month_days + day
   end
 
@@ -39,15 +39,11 @@ defmodule Dates do
     month = 2, returns number of days in January and February
   """
 
-  @spec month_total_days(integer, [integer], integer) :: integer
+  @spec month_total_days(integer, [integer]) :: integer
 
-  def month_total_days(0, _, acc_total) do
-    acc_total
-  end
-
-  def month_total_days(month, days_per_month, acc_total) do
-    [h | t] = days_per_month
-    month_total_days(month - 1, t, acc_total + h)
+  def month_total_days(month, days_per_month) do
+    {days_to_sum, _}  = Enum.split(days_per_month, month)
+    List.foldl(days_to_sum, 0, fn x, acc -> x + acc end)
   end
 
   @doc """
